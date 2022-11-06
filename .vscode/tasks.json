@@ -1,0 +1,43 @@
+{
+    "tasks": [
+        {
+            "label": "buildFromChange",
+            "type": "shell",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "lessCompile",
+                "pugCompile",
+                "deleteGeneratedCss",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "lessCompile",
+            "type": "shell",
+            "command": "for file in $(find ./ -name '*.less'); do lessc -x --strict-imports $file $file.css ; done",
+            "options": {
+                "cwd": "${workspaceFolder}",
+            },
+        },
+        {
+            "label": "pugCompile",
+            "type": "shell",
+            "command": "pug $(find ./ -name 'index.pug')",
+            "options": {
+                "cwd": "${workspaceFolder}",
+            },
+        },
+        {
+            "label": "deleteGeneratedCss",
+            "type": "shell",
+            "command": "for file in $(find ./ -name '*.less.css'); do rm $file ; done",
+            "options": {
+                "cwd": "${workspaceFolder}",
+            },
+        }
+    ],
+    "version": "2.0.0"
+}

@@ -1,0 +1,27 @@
+html
+  head
+    title prueba
+    script(src="./libs/genc.js")
+    script(src="./libs/genc-tools.js")
+    script(src="./libs/gstd.js")
+
+    script(src="./libs/three/build/three.min.js")
+    script(src="./libs/three/examples/js/loaders/GLTFLoader.js")
+    script(src="./libs/three/examples/js/controls/OrbitControls.js")
+
+    style.
+      @import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
+      body {
+        margin:0px;
+        font-family:'Marcellus';
+      }
+  body
+    include ./components/menu-c/menu-c.pug
+    include ./components/gallery-c/gallery-c.pug
+    include ./components/x-card/x-card.pug
+    x-card
+    gallery-c
+      img(src="./components/gallery-c/photos/land.jpg" puts="pic1")
+      img(src="./components/gallery-c/photos/land2.jpeg" puts="pic2")
+      img(src="./components/gallery-c/photos/land3.jpg" puts="pic3")
+      img(src="./components/gallery-c/photos/land4.jpeg" puts="pic4")

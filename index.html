@@ -1,0 +1,127 @@
+<html><head><title>prueba</title><script src="./libs/genc.js"></script><script src="./libs/genc-tools.js"></script><script src="./libs/gstd.js"></script><script src="./libs/three/build/three.min.js"></script><script src="./libs/three/examples/js/loaders/GLTFLoader.js"></script><script src="./libs/three/examples/js/controls/OrbitControls.js"></script><style>@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
+body {
+  margin:0px;
+  font-family:'Marcellus';
+}</style></head><body><template class="genc" id="menu-c"><style>div{display:flex;flex-direction:row;gap:1em;height:3em;align-items:center;padding-left:.5em;padding-right:.5em;background-color:gray}div p{font-size:1.5em;margin:0px}div p.l{margin-right:auto}</style><script>class MenuC extends HTMLElement {
+    constructor() {
+        super();
+
+        addSignal(this,
+            'ready',
+            'newInstance',
+        );
+    }
+
+    main() {
+        return asyn(()=> {
+            console.log("hola soy menu-c");
+        });
+    }
+}
+
+customElements.define('menu-c', MenuC);</script><div><p class="l">Titulo</p><p>Home</p><p>Contact</p></div></template><template class="genc" id="gallery-c"><style>div#gallery{display:flex;width:fit-content;align-items:flex-end}div#gallery div.pic{width:300px;transition-property:width,padding-top;transition:all 1s;padding-top:10%}div#gallery div.pic img{display:block;width:100%;height:auto}div#gallery div.pic:hover{width:600px;padding-top:0%}</style><script>class GalleryC extends HTMLElement {
+    constructor() {
+        super();
+
+        addSignal(this,
+            'ready',
+            'newInstance',
+        );
+    }
+
+    main() {
+        return asyn(()=> {
+            console.log("hola soy gallery-c");
+        });
+    }
+}
+
+customElements.define('gallery-c', GalleryC);</script><div id="gallery"><div class="pic" gets="pic1"></div><div class="pic" gets="pic2"></div><div class="pic" gets="pic3"></div><div class="pic" gets="pic4"></div></div></template><template class="genc" id="x-card"><style>div#card{font-family:Arial;font-size:xx-small;color:#727272;display:flex;flex-direction:column;gap:.5rem;width:13rem;height:18rem;box-sizing:border-box;padding:.5rem;border-radius:20px;background-color:white;box-shadow:10px 10px 30px gray;margin-left:50px;margin-top:50px}div#render{width:100%;height:70%;box-sizing:border-box;padding:.7rem;border-radius:20px;background-color:white;box-shadow:inset 5px 5px 10px gray}div#render canvas{width:100%;height:100%}div#title{color:black}div#rating{display:flex;flex-direction:row;gap:.5rem}div#rating img#rating{aspect-ratio:auto;width:3rem;object-fit:contain}div#price{display:flex;flex-direction:row;gap:.2rem;font-size:small}div#price div#last{color:black}div#price div#last sup{font-size:.5rem}div#price span#old{font-size:.5rem;text-decoration:line-through;align-self:center}</style><script>class XCard extends HTMLElement {
+    constructor() {
+        super();
+
+        addSignal(this,
+            'ready',
+            'newInstance',
+        );
+    }
+
+    main() {
+        return asyn(()=> {
+            const canvasElem = this.gencQuerySelector("div#render canvas");
+
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color( 0xffffff );
+
+            const camera = new THREE.PerspectiveCamera( 75, canvasElem.getBoundingClientRect().width / canvasElem.getBoundingClientRect().height, 0.1, 1000 );
+            camera.position.z = 7;
+
+            const renderer = new THREE.WebGLRenderer({canvas: canvasElem, antialias: true});
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.toneMapping = THREE.ReinhardToneMapping;
+            renderer.toneMappingExposure = 2.3;
+            renderer.shadowMap.enabled = true;
+
+            const orbit = new THREE.OrbitControls(camera, renderer.domElement);
+
+            const hemiLight = new THREE.HemisphereLight(0xffeeb1, 0x080820, 4);
+            scene.add(hemiLight);
+            const spotLight = new THREE.SpotLight(0xffffff, 6);
+            spotLight.castShadow = true;
+            spotLight.shadow.bias = -0.0001;
+            spotLight.shadow.mapSize.width = 1024*4;
+            spotLight.shadow.mapSize.height = 1024*4;
+            scene.add(spotLight);
+
+
+            const loader = new THREE.GLTFLoader();
+            loader.load( './components/x-card/assets/shoe3d.glb', function ( gltf ) {
+                let model = gltf.scene;
+                model.traverse(n => {
+                    if(n.isMesh) {
+                        n.castShadow = true;
+                        n.receiveShadow = true;
+
+                        if(n.material.map)
+                            n.material.map.anisotropy = 16;
+                    }
+                });
+                scene.add(model);
+
+                function animate() {
+                    requestAnimationFrame( animate );
+
+                    spotLight.position.set(
+                        camera.position.x +10,
+                        camera.position.y +10,
+                        camera.position.z +10
+                    );
+
+                    model.rotation.y += 0.01;
+                    
+                    orbit.update();
+                    renderer.render( scene, camera );
+                }
+                animate();
+            }, undefined, function ( error ) {
+                console.error( error );
+            } );
+
+            const plane = new THREE.Mesh(
+                new THREE.PlaneGeometry(100, 100),
+                new THREE.MeshLambertMaterial({
+                    side: THREE.DoubleSide,
+                })
+            );
+            plane.material.color.setHex(0xffffff);
+            plane.rotateX(-Math.PI / 2);
+            plane.position.y = -2;
+            plane.castShadow = true;
+            plane.receiveShadow = true;
+            scene.add(plane);
+
+        });
+    }
+}
+
+customElements.define('x-card', XCard);</script><div id="card"><div id="render"><canvas></canvas></div><div id="title">BBX Lephsnt Womens Wrap V Neck Dresses for Wedding Guest Casual Pleated Long Sleeve Mini Dress</div><div id="rating"><img id="rating" src="./components/x-card/assets/rating1.png"/><div>1,775</div></div><div id="price"><div id="last"><sup>$</sup><span>45</span><sup>99</sup></div><span id="old">$49.99</span></div></div></template><x-card></x-card><gallery-c><img src="./components/gallery-c/photos/land.jpg" puts="pic1"/><img src="./components/gallery-c/photos/land2.jpeg" puts="pic2"/><img src="./components/gallery-c/photos/land3.jpg" puts="pic3"/><img src="./components/gallery-c/photos/land4.jpeg" puts="pic4"/></gallery-c></body></html>

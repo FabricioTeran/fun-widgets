@@ -1,0 +1,14 @@
+template#gallery-c.genc
+  style
+    include gallery-c.less.css
+  script
+    include gallery-c.js
+
+  div(id="gallery")
+    div(class="pic" gets="pic1")
+    div(class="pic" gets="pic2")
+    div(class="pic" gets="pic3")
+    div(class="pic" gets="pic4")
+  
+  //- Mejorar el elemento para que acepte un numero como atributo y construya x cantidad de
+      divs.pic con sus propios atributos gets enumerados

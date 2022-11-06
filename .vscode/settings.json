@@ -1,0 +1,10 @@
+{
+    "workbench.colorTheme": "Panda Digital Dark",
+    "triggerTaskOnSave.tasks": {
+        "buildFromChange": [
+            "*.less",
+            "*.pug",
+            "*.js",
+        ],
+    },
+}

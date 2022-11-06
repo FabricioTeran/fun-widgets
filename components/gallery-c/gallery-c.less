@@ -1,0 +1,23 @@
+div#gallery {
+    display:flex;
+    width:fit-content;
+    align-items:flex-end;
+
+    div.pic {
+        width:300px;
+        transition-property: width, padding-top;
+        transition: all 1s;
+        padding-top: 10%;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        &:hover {
+            width:600px;
+            padding-top:0%;
+        }
+    }
+}
